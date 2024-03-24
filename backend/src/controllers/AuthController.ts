@@ -24,12 +24,14 @@ const sendTokenResponse = (user:UserDoc, statusCode:number, res:Response)=>{
     if(process.env.NODE_ENV === 'production'){
         options.secure = true
     }
+    
 
     res.status(statusCode)
     .cookie('token',token, options) //setting token in the cookie
     .json({
         success: true,
-        token
+        token,
+        data:user
     })
 }
 

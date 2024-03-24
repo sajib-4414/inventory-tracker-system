@@ -22,7 +22,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
@@ -45,7 +45,7 @@ module.exports = {
     alias: {
       styles: path.resolve(__dirname, 'styles'),
     },
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['','.ts', '.tsx', '.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({

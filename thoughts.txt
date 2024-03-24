@@ -57,4 +57,7 @@ is needed to syncrhonously throw errors even if not passed as next(error)
 spent a lot of time for global error hadndler, customizing error responses.
 
 webpack configure korte kosto hoise
+
+authetnication set korte kosto hoise,
+cookie authentication set hossilona fronend e corss origin er jonno, then axios e+ backend a credentials true set kora lagse
 loader milaite partesilam na, then webpack config file ar .babelrc file a approriate babel/preset-env choose korsi pore thik hoise.

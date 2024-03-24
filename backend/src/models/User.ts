@@ -74,6 +74,12 @@ userSchema.methods.getSignedJWTToken = function(){
     
 }
 
+userSchema.methods.toJSON = function() {
+    const userObject = this.toObject();
+    delete userObject.password;
+    return userObject;
+};
+
 //match user entered password to authenticate
 userSchema.methods.matchPassword = async function(enteredPassword:string){
     return await brcypt.compare(enteredPassword, this.password)

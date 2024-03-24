@@ -7,11 +7,17 @@ import { authRoutes } from './routes/auth-routes';
 import cookieParser from 'cookie-parser';
 import { paintRoutes } from './routes/paint-routes';
 import { taskRoutes } from './routes/task-routes';
+const cors = require('cors');
 
 const app = express();
 app.set('trust proxy', true);
 
 app.use(json());
+// Enable CORS for all routes
+app.use(cors({
+  origin: 'http://localhost:3000', // Replace with your frontend URL
+  credentials: true, // Enable sending and receiving cookies
+}));
 
 app.use(express.urlencoded({ extended: true }));
 
