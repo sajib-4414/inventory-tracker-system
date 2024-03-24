@@ -88,4 +88,23 @@ const createUser = async (req:Request, res: Response, next: NextFunction)=>{
     }
 }
 
-export { getUsers, enableDisableUsers, deleteUser , createUser};
+
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+    const { name } = req.body;
+    try {
+        const user: UserDoc | null = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        user.name = name; // Update the user's name
+        await user.save(); // Save the updated user
+        res.status(200).json({ success: true, data: user });
+    } catch (err) {
+        console.error(err);
+        next(new Error('Error updating user'));
+    }
+};
+
+
+export { getUsers, enableDisableUsers, deleteUser , createUser, updateUser};

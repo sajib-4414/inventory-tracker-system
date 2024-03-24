@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { ToastType, useNotification } from '../contexts/NotificationContext';
+import { Link } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
@@ -63,6 +64,10 @@ const PaintInventory = () => {
 
   return (
     <div className="container">
+      <div className="container text-center">
+                        <Link to="/create-paint" className="btn btn-primary mb-1" style={{ width: '300px' }}>Create Paint</Link>
+                    </div>
+                    <br></br>
       <h2>Paint Inventory</h2>
       <table className="table">
         <thead>

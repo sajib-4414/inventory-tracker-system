@@ -12,6 +12,7 @@ import TaskList from "./components/TaskList.jsx"
 import UserList from "./components/UserList.jsx"
 import CreateUser from "./components/CreateUser.jsx"
 import CreateTask from "./components/CreateTask.jsx"
+import CreatePaint from "./components/CreatePaint.jsx"
 const App = ()=>{
     return(
       <NotificationProvider>
@@ -26,6 +27,7 @@ const App = ()=>{
             <Route path="user-list" element={<UserList />} />
             <Route path="create-user" element={<CreateUser />} />
             <Route path="create-task" element={<CreateTask />} />
+            <Route path="create-paint" element={<CreatePaint />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
