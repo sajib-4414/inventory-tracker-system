@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import  brcypt  from "bcryptjs";
 import jwt from 'jsonwebtoken'
-import { AbilityDoc } from "./Ability";
+import { Ability, AbilityDoc } from "./Ability";
 
 enum UserType {
     Admin = "admin",
@@ -52,6 +52,9 @@ const userSchema = new mongoose.Schema<UserDoc>({
         enum: Object.values(UserType), // Ensure type field value is one of UserType enum values
         required: [true, 'Please select a user type']
     }
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: false }
 })
 
 //Encrypt password using brcypt
@@ -73,6 +76,21 @@ userSchema.methods.getSignedJWTToken = function(){
     })
     
 }
+
+// userSchema.virtual('permissions').get(function(this: UserDoc): Promise<string[]> {
+//     return Ability.find({ _id: { $in: this.abilities } })
+//         .populate('permissions')
+//         .then((abilities: AbilityDoc[]) => {
+//             const permissions: string[] = [];
+//             abilities.forEach((ability: AbilityDoc) => {
+//                 ability.permissions.forEach((permission) => {
+//                     permissions.push(permission.name);
+//                 });
+//             });
+//             return permissions;
+//         });
+// });
+
 
 userSchema.methods.toJSON = function() {
     const userObject = this.toObject();

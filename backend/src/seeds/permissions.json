@@ -1,0 +1,142 @@
+[
+    {
+        "_id": "660073d506fa6a2f4759278f",
+        "name": "Allow Registration",
+        "code": "allow_registration",
+        "description": "Allows registration of new users"
+      },
+      {
+        "_id": "660073d506fa6a2f47592792",
+        "name": "Allow Get Me",
+        "code": "allow_get_me",
+        "description": "Allows users to retrieve their own profile information"
+      },
+      {
+        "_id": "660073d506fa6a2f47592793",
+        "name": "Allow Update Details",
+        "code": "allow_update_details",
+        "description": "Allows users to update their profile details"
+      },
+      {
+        "_id": "660073d506fa6a2f47592794",
+        "name": "Allow Update Password",
+        "code": "allow_update_password",
+        "description": "Allows users to update their password"
+      },
+      {
+        "_id": "660073d506fa6a2f47592791",
+        "name": "Allow Logout",
+        "code": "allow_logout",
+        "description": "Allows users to log out"
+      },
+      {
+        "_id": "660073d506fa6a2f47592796",
+        "name": "Allow Get All Paints",
+        "code": "allow_get_all_paints",
+        "description": "Allows retrieval of all paint colors"
+      },
+      {
+        "_id": "660073d506fa6a2f47592790",
+        "name": "Allow Login",
+        "code": "allow_login",
+        "description": "Allows users to log in"
+      },
+      {
+        "_id": "660073d506fa6a2f47592798",
+        "name": "Allow Update Stock Assigned",
+        "code": "allow_update_stock_assigned",
+        "description": "Allows update of stock for assigned paint color"
+      },
+      {
+        "_id": "660073d506fa6a2f47592799",
+        "name": "Allow Update Paint Color",
+        "code": "allow_update_paint_color",
+        "description": "Allows update of a paint color"
+      },
+      {
+        "_id": "660073d506fa6a2f4759279a",
+        "name": "Allow Delete Paint",
+        "code": "allow_delete_paint",
+        "description": "Allows deletion of a paint color and associated stock"
+      },
+      {
+        "_id": "660073d506fa6a2f4759279b",
+        "name": "Allow Create Task",
+        "code": "allow_create_task",
+        "description": "Allows creation of new tasks"
+      },
+      {
+        "_id": "660073d506fa6a2f4759279c",
+        "name": "Allow Get All Tasks",
+        "code": "allow_get_all_tasks",
+        "description": "Allows retrieval of all tasks"
+      },
+      {
+        "_id": "660073d506fa6a2f4759279d",
+        "name": "Allow Get My Tasks",
+        "code": "allow_get_my_tasks",
+        "description": "Allows retrieval of tasks assigned to the user"
+      },
+      {
+        "_id": "660073d506fa6a2f4759279e",
+        "name": "Allow Update Any Task",
+        "code": "allow_update_any_task",
+        "description": "Allows update of any task"
+      },
+      {
+        "_id": "660073d506fa6a2f4759279f",
+        "name": "Allow Update My Task Status",
+        "code": "allow_update_my_task_status",
+        "description": "Allows update of the status for assigned tasks"
+      },
+      {
+        "_id": "660073d506fa6a2f475927a0",
+        "name": "Allow Delete Task",
+        "code": "allow_delete_task",
+        "description": "Allows deletion of tasks"
+      },
+      {
+        "_id": "660073d506fa6a2f475927a1",
+        "name": "Allow Get All Users",
+        "code": "allow_get_all_users",
+        "description": "Allows retrieval of all users"
+      },
+      {
+        "_id": "660073d506fa6a2f475927a2",
+        "name": "Allow Create User",
+        "code": "allow_create_user",
+        "description": "Allows creation of new users"
+      },
+      {
+        "_id": "660073d506fa6a2f475927a3",
+        "name": "Allow Enable/Disable User",
+        "code": "allow_enable_disable_user",
+        "description": "Allows enabling or disabling a user"
+      },
+      {
+        "_id": "660073d506fa6a2f475927a4",
+        "name": "Allow Delete User",
+        "code": "allow_delete_user",
+        "description": "Allows deletion of a user and their tasks"
+      },
+      {
+        "_id": "660073d506fa6a2f47592795",
+        "name": "Allow Create Paint",
+        "code": "allow_create_paint",
+        "description": "Allows creation of new paint colors"
+      },
+      {
+        "_id": "660073d506fa6a2f47592797",
+        "name": "Allow Update Stock All",
+        "code": "allow_update_stock_all",
+        "description": "Allows update of stock for any paint color"
+      },
+
+    {
+        "_id":"66007cefc37d87877df4051e",
+        "name": "Allow User Management and Ability Management",
+        "code": "allow_user_management_and_ability_management",
+        "description": "Allows managing users and their abilities"
+    }
+]
+  

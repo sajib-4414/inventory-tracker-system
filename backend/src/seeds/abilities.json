@@ -1,0 +1,54 @@
+[
+    {
+      "_id":"660078002f5e46f1ec33a118",
+      "name": "PaintViewAndUpateStockForPainter",
+      "permissions": [
+        "660073d506fa6a2f47592796", 
+        "660073d506fa6a2f47592798"  
+      ]
+    },
+    {
+      "_id":"660078002f5e46f1ec33a119",
+      "name": "PaintManagement",
+      "permissions": [
+        "660073d506fa6a2f47592796", 
+        "660073d506fa6a2f47592799", 
+        "660073d506fa6a2f4759279a", 
+        "660073d506fa6a2f47592795"  
+      ]
+    },
+    {
+      "_id":"660078002f5e46f1ec33a11a",
+      "name": "PaintViewOnly",
+      "permissions": [
+        "660073d506fa6a2f47592796"  
+      ]
+    },
+    {
+      "_id":"660078002f5e46f1ec33a11b",
+      "name": "TaskViewUpdateForOwn",
+      "permissions": [
+        "660073d506fa6a2f4759279d", 
+        "660073d506fa6a2f4759279f"  
+      ]
+    },
+    {
+      "_id":"660078002f5e46f1ec33a11c",
+      "name": "TaskManagementAndAssign",
+      "permissions": [
+        "660073d506fa6a2f4759279c", 
+        "660073d506fa6a2f4759279b", 
+        "660073d506fa6a2f475927a0", 
+        "660073d506fa6a2f4759279e", 
+        "660073d506fa6a2f4759279b"  
+      ]
+    },
+    {
+        
+        "name": "UserAndRoleManagement",
+        "permissions": [
+          "66007cefc37d87877df4051e" 
+        ]
+      }
+  ]
+  

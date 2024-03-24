@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express"
-import { User, UserDoc } from "../models/User";
+import { User, UserDoc, UserType } from "../models/User";
 import { validationResult } from "express-validator";
 import { BadRequestError } from "../utils/RequestUtilities";
+import { Ability } from "../models/Ability";
 
 
 //Get token from model, create cookie and send response
@@ -39,22 +40,53 @@ const sendTokenResponse = (user:UserDoc, statusCode:number, res:Response)=>{
 // @route POST /api/v1/auth/register
 // @access Public
 
-const register = async (req:Request, res: Response, next: NextFunction)=>{
-    const {name, email, password, type} = req.body;
-    try{
-        //create user
-        const user:UserDoc = await User.create({
-            name, 
+export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
+    const { name, email, password, type } = req.body;
+    try {
+        let abilities: string[] = [];
+
+        switch (type) {
+            case UserType.Painter:
+                abilities = ["PaintViewAndUpateStockForPainter", "TaskViewUpdateForOwn"];
+                break;
+            case UserType.Supervisor:
+                abilities = ["PaintViewOnly", "TaskManagementAndAssign"];
+                break;
+            case UserType.SupplyCoordinator:
+                abilities = ["PaintManagement"];
+                break;
+            case UserType.Admin:
+                abilities = ["PaintManagement", "TaskManagementAndAssign", "UserAndRoleManagement"];
+                break;
+            default:
+                throw new BadRequestError('Invalid user type');
+        }
+
+        // Fetch ability IDs based on ability names
+        const abilityIds: string[] = await Promise.all(abilities.map(async (abilityName: string) => {
+            const ability = await Ability.findOne({ name: abilityName });
+            if (!ability) {
+                throw new BadRequestError(`Ability ${abilityName} not found`);
+            }
+            return ability.id;
+        }));
+
+        // Create user
+        const user: UserDoc = await User.create({
+            name,
             email,
             password,
-            type
-        })
-        sendTokenResponse(user, 200, res)
-    }catch(err){
-        console.log(err)
+            type,
+            abilities: abilityIds // Assign ability IDs to the user
+        });
+        await user.populate('abilities')
+
+        sendTokenResponse(user, 200, res);
+    } catch (err) {
+        console.log(err);
         throw new BadRequestError('Form validation error');
     }
-}
+};
 
 
 // @desc Register user
@@ -70,6 +102,7 @@ const login = async (req:Request, res: Response, next: NextFunction)=>{
     try{
          //check for user and explicitly retrieving password to match below
         const user:UserDoc = await User.findOne({email}).select('+password')
+        await user.populate('abilities')
 
         if(!user){
             throw new BadRequestError('Invalid Credentials');
@@ -96,11 +129,15 @@ const login = async (req:Request, res: Response, next: NextFunction)=>{
 // @access Private
 
 const getMe = async (req:any, res:Response, next:NextFunction)=>{
-    const user:UserDoc|null = await User.findById(req.user.id)
+    const user:UserDoc|null = await User.findById(req.user.id).populate({
+        path: 'abilities',
+        populate: { path: 'permissions' }
+    })
     res.status(200).json({
         success: true,
         data:user
     })
+
 }
 
 
@@ -160,4 +197,4 @@ const updatePassword = async (req:any, res:Response, next:NextFunction)=>{
    
 }
 
-export{updateDetails, updatePassword, register, login, logout, getMe}
+export{updateDetails, updatePassword, registerUser as register, login, logout, getMe}
