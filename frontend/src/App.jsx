@@ -8,6 +8,7 @@ import { Route, Routes } from "react-router"
 import { NotificationProvider } from "./contexts/NotificationContext.jsx";
 import PaintInventory from "./components/PaintInventory.jsx"
 import { ProtectedRoute } from "./common/ProtectedRoute.jsx"
+import TaskList from "./components/TaskList.jsx"
 const App = ()=>{
     return(
       <NotificationProvider>
@@ -18,6 +19,7 @@ const App = ()=>{
           <Route path="signup" element={<Signup />} />
           <Route element={<ProtectedRoute />}>
             <Route path="paint-inventory" element={<PaintInventory />} />
+            <Route path="tasks-list" element={<TaskList />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

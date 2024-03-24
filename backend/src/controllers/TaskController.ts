@@ -46,7 +46,7 @@ const getMyTasks = async (req: any, res: Response, next: NextFunction) => {
 //only managers, admin can update anything of any task
 const updateTaskAny = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { taskId, houseAddress, paintColor,title } = req.body;
+        const { taskId, houseAddress, paintColor,title,status } = req.body;
 
         // Find the task by ID
         const task = await Task.findById(taskId);
@@ -64,6 +64,9 @@ const updateTaskAny = async (req: Request, res: Response, next: NextFunction) =>
         }
         if (title) {
             task.title = title;
+        }
+        if (status) {
+            task.status = status;
         }
 
         // saving before returning

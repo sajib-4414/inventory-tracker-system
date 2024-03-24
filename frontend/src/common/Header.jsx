@@ -44,7 +44,7 @@ const Header = () => {
         return (
           <>
             <li className="nav-item">
-              <Link to="/my-tasks" className="nav-link text-white">
+              <Link to="/tasks-list" className="nav-link text-white">
                 My Tasks
               </Link>
             </li>
@@ -59,7 +59,7 @@ const Header = () => {
         return (
           <>
             <li className="nav-item">
-              <Link to="/all-tasks" className="nav-link text-white">
+              <Link to="/tasks-list" className="nav-link text-white">
                 All Tasks
               </Link>
             </li>
@@ -87,7 +87,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/all-tasks" className="nav-link text-white">
+              <Link to="/tasks-list" className="nav-link text-white">
                 All Tasks
               </Link>
             </li>

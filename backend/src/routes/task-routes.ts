@@ -32,6 +32,8 @@ const taskUpdateValidation: ValidationChain[] = [
     body('taskId').custom((value: string) => isValidObjectId(value)).withMessage('Task ID must be a valid MongoDB ObjectId'),
     body('houseAddress').optional().isString().withMessage('House address must be a string'),
     body('paintColor').optional().isString().withMessage('Paint color must be a string'),
+    body('title').optional().isString().withMessage('Title must be a string'),
+    body('status').optional().isString().withMessage('status must be a string'),
 ];
 
 const taskStatusUpdateValidation: ValidationChain[] = [
