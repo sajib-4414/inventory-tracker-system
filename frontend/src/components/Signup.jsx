@@ -42,10 +42,13 @@ const Signup = () => {
       setLoading(false);
       // Redirect to home page or any other route after successful registration
       
-      notificationHook.showNotification('Login successful', {
+      notificationHook.showNotification('Registration successful', {
         type: ToastType.Success,
       });
-      navigate('/');
+      // navigate('/'); TODO needs State implmenetation for the header to take effect
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 700);
     } catch (error) {
       setLoading(false);
       console.error("Registration error:", error);

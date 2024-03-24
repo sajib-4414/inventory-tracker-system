@@ -1,12 +1,120 @@
-import React, { FC } from "react";
-import { Link } from "react-router-dom";
-import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Make sure Bootstrap JS is imported
+import React, { useState, useEffect } from "react";
+import { Link, useHistory, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastType, useNotification } from "../contexts/NotificationContext";
 
 const Header = () => {
+  const [userType, setUserType] = useState(""); // Initialize userType state
+  const notificationHook = useNotification();
+  const navigate = useNavigate();
+
+  // Function to handle logout
+  const handleLogout = async () => {
+    try {
+      const API_ROOT = process.env.REACT_API_HOST;
+      axios.defaults.withCredentials = true;
+      await axios.get(`${API_ROOT}/api/v1/auth/logout`);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      notificationHook.showNotification('Logout successful', {
+        type: ToastType.Success,
+      });
+      //navigate('/'); TODO needs State implmenetation for the header to take effect
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
+  // Get user data from local storage
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const user = JSON.parse(userData);
+      setUserType(user.type);
+    }
+  }, []);
+
+  // Render additional menu items based on user type
+  const renderAdditionalMenuItems = () => {
+    switch (userType) {
+      case "painter":
+        return (
+          <>
+            <li className="nav-item">
+              <Link to="/my-tasks" className="nav-link text-white">
+                My Tasks
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/paint-inventory" className="nav-link text-white">
+                Paint Inventory
+              </Link>
+            </li>
+          </>
+        );
+      case "supervisor":
+        return (
+          <>
+            <li className="nav-item">
+              <Link to="/all-tasks" className="nav-link text-white">
+                All Tasks
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/paint-inventory" className="nav-link text-white">
+                Paint Inventory
+              </Link>
+            </li>
+          </>
+        );
+      case "supply_coordinator":
+        return (
+          <li className="nav-item">
+            <Link to="/paint-inventory" className="nav-link text-white">
+              Paint Inventory
+            </Link>
+          </li>
+        );
+      case "admin":
+        return (
+          <>
+            <li className="nav-item">
+              <Link to="/all-users" className="nav-link text-white">
+                All Users
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/all-tasks" className="nav-link text-white">
+                All Tasks
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/all-roles" className="nav-link text-white">
+                All Roles
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/all-permissions" className="nav-link text-white">
+                All Permissions
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/paint-inventory" className="nav-link text-white">
+                Paint Inventory
+              </Link>
+            </li>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <header className="p-3 bg-dark text-white">
       <div className="container">
-        <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between">
           <Link
             to="/"
             className="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
@@ -14,81 +122,28 @@ const Header = () => {
             <h2 className="text-white">Paint Stock System</h2>
           </Link>
 
-          <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li>
-              <Link to="movies" className="nav-link px-2 text-white">
+          <ul className="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
+            <li className="nav-item">
+              <Link to="movies" className="nav-link text-white">
                 All Movies
               </Link>
             </li>
-            <li>
-              <a href="#" className="nav-link px-2 text-white">
-                Pricing
-              </a>
-            </li>
-            <li>
-              <a href="#" className="nav-link px-2 text-white">
-                FAQs
-              </a>
-            </li>
-            <li>
-              <a href="#" className="nav-link px-2 text-white">
-                About
-              </a>
-            </li>
+            
           </ul>
 
-          <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-            <input
-              type="search"
-              className="form-control form-control-dark"
-              placeholder="Search..."
-              aria-label="Search"
-            />
-          </form>
-
-          <div className="text-end">
-            {false ? (
-              <div className="dropdown">
-                <button
-                  className="btn btn-outline-light dropdown-toggle me-2"
-                  type="button"
-                  id="userDropdown"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {loggedInUser.username}
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="userDropdown">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Profile
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                  <Link to="export" className="dropdown-item">
-                  Export
-                </Link>
-                    
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      href="#"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </a>
-                  </li>
-                </ul>
-              </div>
+          
+          <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              {userType && renderAdditionalMenuItems()} {/* Render additional menu items */}
+            </ul>
+          <div className="">
+            
+            {userType ? (
+              <button
+                className="btn btn-outline-light me-2"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
             ) : (
               <>
                 <Link to="login" className="btn btn-outline-light me-2">
@@ -100,7 +155,6 @@ const Header = () => {
               </>
             )}
           </div>
-
         </div>
       </div>
     </header>

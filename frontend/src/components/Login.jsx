@@ -27,7 +27,10 @@ const Login = () => {
       notificationHook.showNotification('Login successful', {
         type: ToastType.Success,
       });
-      navigate('/');
+      //navigate('/'); TODO needs State implmenetation for the header to take effect
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 700);
 
     } catch (error) {
       console.error('Login error:', error);
