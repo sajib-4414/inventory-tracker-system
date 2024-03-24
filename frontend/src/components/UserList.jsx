@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastType, useNotification } from '../contexts/NotificationContext';
+import { Link } from 'react-router-dom';
+
+// Define a mapping object for user types
+const UserTypeLabels = {
+    admin: 'Admin',
+    painter: 'Painter',
+    supervisor: 'Supervisor',
+    supply_coordinator: 'Supply Coordinator'
+};
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('all');
     const API_ROOT = process.env.REACT_API_HOST;
+    const notificationHook = useNotification();
     axios.defaults.withCredentials = true; // Communicate cookie with the server
 
     useEffect(() => {
@@ -32,7 +43,11 @@ const UserList = () => {
 
     const handleDeleteUser = async (userId) => {
         try {
-            await axios.delete(`${API_ROOT}/3001/api/v1/users/${userId}`);
+            await axios.delete(`${API_ROOT}/api/v1/users/${userId}`);
+            notificationHook.showNotification('User Deleted', {
+                type: ToastType.Info,
+              });
+
             // Refresh user list
             fetchUsers();
         } catch (error) {
@@ -43,6 +58,10 @@ const UserList = () => {
     const handleEnableDisableUser = async (userId, isEnabled) => {
         try {
             await axios.post(`${API_ROOT}/api/v1/users/setenabled/${userId}`, { isEnabled: !isEnabled });
+            notificationHook.showNotification(isEnabled?'User Disabled':'User Enabled', {
+                type: ToastType.Info,
+              });
+
             // Refresh user list
             fetchUsers();
         } catch (error) {
@@ -54,6 +73,10 @@ const UserList = () => {
         <div className="container">
             <div className="row mb-3">
                 <div className="col">
+                    <div className="container text-center">
+                        <Link to="/create-user" className="btn btn-primary mb-1" style={{ width: '300px' }}>Create User</Link>
+                    </div>
+                    <br></br>
                     <label htmlFor="filter" className="form-label">Filter by type:</label>
                     <select id="filter" className="form-select" value={filter} onChange={handleFilterChange}>
                         <option value="all">All</option>
@@ -81,7 +104,7 @@ const UserList = () => {
                                 <tr key={user._id}>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
-                                    <td>{user.type}</td>
+                                    <td>{UserTypeLabels[user.type]}</td> {/* Display human-readable label */}
                                     <td>{user.is_enabled ? 'Enabled' : 'Disabled'}</td>
                                     <td>
                                         <button className="btn btn-primary btn-sm me-1" onClick={() => handleUpdateUser(user._id)}>Update</button>

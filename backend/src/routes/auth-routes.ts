@@ -15,7 +15,7 @@ const loginValidationChain: ValidationChain[] = [
     .withMessage('You must supply a password')
 ]
 
-const registerValidationChain: ValidationChain[] = [
+export const registerValidationChain: ValidationChain[] = [
     body('name').notEmpty().withMessage('You must supply a name'),
     body('email').isEmail().withMessage('Email must be valid'),
     body('type').notEmpty().withMessage('You must supply type'),

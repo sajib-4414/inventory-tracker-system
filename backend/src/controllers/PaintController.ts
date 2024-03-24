@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { body, ValidationChain } from 'express-validator';
 import { Paint, PaintDoc } from '../models/Paint';
-import { BadRequestError, NotFoundError } from '../utils/RequestUtilities';
+import { BadRequestError, NotFoundError, UnhandledError } from '../utils/RequestUtilities';
 import { Stock } from '../models/Stock';
+import { Task } from '../models/Task';
 
 //creating a new paint
 const createPaint = async (req: Request, res: Response, next: NextFunction) => {
@@ -120,8 +121,38 @@ const updateStockAll = async (req: Request, res: Response, next: NextFunction) =
 };
 
 // update the stock of assigned paint color only
-const updateStockAssigned = async (req: Request, res: Response, next: NextFunction) => {
-    // Implement your logic here
+const updateStockAssigned = async (req: any, res: Response, next: NextFunction) => {
+    
+        const user  = req.user
+        const { paintId, newQuantity } = req.body;
+
+        // Check if the user has any tasks assigned
+        const tasks = await Task.find({ 'user': user._id });
+
+        if (!tasks || tasks.length === 0) {
+            throw new BadRequestError('User has no tasks assigned');
+        }
+        const paint = await Paint.findById(paintId)
+        // Find the task with the matching paint color
+        const matchingTask = tasks.find(task => task.paintColor === paint?.color);
+
+        if (!matchingTask) {
+            throw new BadRequestError('User has no tasks assigned with the specified paint color');
+        }
+
+
+        //update stock
+        const stock = await Stock.findOne({ paint: paintId });
+        if (!stock) {
+            throw new BadRequestError('Stock not found for the specified paintId');
+        }
+        // Update the quantity
+        stock.quantity = newQuantity;
+        await stock.save();
+        const newPaint = await Paint.findById(paintId).populate('quantity')//refetch to show the updated quantity
+
+        res.status(200).json({ success: true, message: 'Stock updated successfully',data:newPaint });
+    
 };
 
 export {

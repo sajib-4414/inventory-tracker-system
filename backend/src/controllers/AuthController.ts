@@ -83,7 +83,8 @@ const login = async (req:Request, res: Response, next: NextFunction)=>{
     }
         sendTokenResponse(user, 200, res)
     }catch(err){
-        return next(new BadRequestError('Server Error'));
+        console.log(err)
+        return next(new BadRequestError('Check credentials again'));
     }
     
    

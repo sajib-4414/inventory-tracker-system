@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { User, UserType, UserDoc } from '../models/User';
 import { BadRequestError, NotFoundError, UnhandledError } from '../utils/RequestUtilities';
 import { Task } from '../models/Task';
@@ -70,4 +70,22 @@ const deleteUser = async (req: Request, res: Response) => {
     }
 };
 
-export { getUsers, enableDisableUsers, deleteUser };
+
+const createUser = async (req:Request, res: Response, next: NextFunction)=>{
+    const {name, email, password, type} = req.body;
+    try{
+        //create user
+        const user:UserDoc = await User.create({
+            name, 
+            email,
+            password,
+            type
+        })
+        res.status(200).json({ success: true, data:user });
+    }catch(err){
+        console.log(err)
+        throw new BadRequestError('Form validation error');
+    }
+}
+
+export { getUsers, enableDisableUsers, deleteUser , createUser};

@@ -49,7 +49,7 @@ const paintStockUpdateValidation: ValidationChain[] = [
 router.post('', paintCreation, validateRequest, authenticatedRoute, createPaint) //creates paint
 router.get('', authenticatedRoute, getAllPaints) //get all paints
 router.post('/update-stock-all', authenticatedRoute,paintStockUpdateValidation, validateRequest, updateStockAll) //update the stock of any paint
-router.post('/update-stock-assigned', authenticatedRoute,updateStockAssigned) //update the stock of paint of assigned color
+router.post('/update-stock-assigned', authenticatedRoute,paintStockUpdateValidation, validateRequest, updateStockAssigned) //update the stock of paint of assigned color
 router.put('/:paintId', authenticatedRoute,updatePaintColor) //update a paint color
 router.delete('/:paintId', authenticatedRoute,deletePaint) //delete a paint, also deletes the stock associated with the paint
 
