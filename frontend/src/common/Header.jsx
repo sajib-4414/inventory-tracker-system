@@ -6,6 +6,7 @@ import { ToastType, useNotification } from "../contexts/NotificationContext";
 const Header = () => {
   const [userType, setUserType] = useState(""); // Initialize userType state
   const notificationHook = useNotification();
+  const [name, setName] = useState("");
   const navigate = useNavigate();
 
   // Function to handle logout
@@ -32,6 +33,7 @@ const Header = () => {
     if (userData) {
       const user = JSON.parse(userData);
       setUserType(user.type);
+      setName(user.name)
     }
   }, []);
 
@@ -138,12 +140,16 @@ const Header = () => {
           <div className="">
             
             {userType ? (
+              <>
+              <span className="nav-item">{name} ({userType}) </span>
               <button
                 className="btn btn-outline-light me-2"
                 onClick={handleLogout}
               >
                 Logout
               </button>
+              </>
+              
             ) : (
               <>
                 <Link to="login" className="btn btn-outline-light me-2">

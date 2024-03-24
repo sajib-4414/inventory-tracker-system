@@ -22,7 +22,7 @@ export const NotificationProvider = ({
 }) => {
   const [message, setMessage] = useState(null);
   // Declare toastFunction here
-  let toastFunction;
+  
   const resetMessage = () => {
     setMessage(null);
   };
@@ -30,19 +30,18 @@ export const NotificationProvider = ({
     const toastOptions = {
       autoClose: config?.length || 3000,
     };
-    
     switch (config?.type) {
       case ToastType.Error:
-        toastFunction = toast.error;
+        toast.error(message,toastOptions)
         break;
       case ToastType.Success:
-        toastFunction = toast.success;
+        toast.success(message,toastOptions)
         break;
       case ToastType.Info:
-        toastFunction = toast.info;
+        toast.info(message,toastOptions)
         break;
     }
-    toastFunction(message, toastOptions);
+    
   };
   useEffect(() => {
     //everytime message is changed, reset the message in 3s

@@ -61,3 +61,6 @@ webpack configure korte kosto hoise
 authetnication set korte kosto hoise,
 cookie authentication set hossilona fronend e corss origin er jonno, then axios e+ backend a credentials true set kora lagse
 loader milaite partesilam na, then webpack config file ar .babelrc file a approriate babel/preset-env choose korsi pore thik hoise.
+
+had difficulty with file extgensions, it was asking to imort with .jsx each time, 
+the solution was in the webpack configuration, include '' as well beside js, jsx, ts, tsx.
