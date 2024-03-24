@@ -82,7 +82,7 @@ const Header = () => {
         return (
           <>
             <li className="nav-item">
-              <Link to="/all-users" className="nav-link text-white">
+              <Link to="/user-list" className="nav-link text-white">
                 All Users
               </Link>
             </li>
@@ -127,7 +127,7 @@ const Header = () => {
           <ul className="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
             <li className="nav-item">
               <Link to="movies" className="nav-link text-white">
-                All Movies
+                About us
               </Link>
             </li>
             

@@ -9,6 +9,7 @@ import { NotificationProvider } from "./contexts/NotificationContext.jsx";
 import PaintInventory from "./components/PaintInventory.jsx"
 import { ProtectedRoute } from "./common/ProtectedRoute.jsx"
 import TaskList from "./components/TaskList.jsx"
+import UserList from "./components/UserList.jsx"
 const App = ()=>{
     return(
       <NotificationProvider>
@@ -20,6 +21,7 @@ const App = ()=>{
           <Route element={<ProtectedRoute />}>
             <Route path="paint-inventory" element={<PaintInventory />} />
             <Route path="tasks-list" element={<TaskList />} />
+            <Route path="user-list" element={<UserList />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

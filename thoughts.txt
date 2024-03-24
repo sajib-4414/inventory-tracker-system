@@ -64,3 +64,5 @@ loader milaite partesilam na, then webpack config file ar .babelrc file a appror
 
 had difficulty with file extgensions, it was asking to imort with .jsx each time, 
 the solution was in the webpack configuration, include '' as well beside js, jsx, ts, tsx.
+
+task can be only assigned to painter users.

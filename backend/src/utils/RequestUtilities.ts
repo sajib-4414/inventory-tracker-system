@@ -102,3 +102,18 @@ export class NotAuthorizedError extends CustomError {
     return [{ message: 'Not authorized' }];
   }
 }
+
+
+export class UnhandledError extends CustomError {
+  statusCode = 500;
+
+  constructor() {
+    super('Unknown error occurred');
+
+    Object.setPrototypeOf(this, UnhandledError.prototype);
+  }
+
+  serializeErrors() {
+    return [{ message: "Unknown Error Occurred" }];
+  }
+}
