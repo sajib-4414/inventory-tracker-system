@@ -6,6 +6,7 @@ import { NotFoundError, errorHandler } from './utils/RequestUtilities';
 import { authRoutes } from './routes/auth-routes';
 import cookieParser from 'cookie-parser';
 import { paintRoutes } from './routes/paint-routes';
+import { taskRoutes } from './routes/task-routes';
 
 const app = express();
 app.set('trust proxy', true);
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/paints', paintRoutes)
+app.use('/api/v1/tasks', taskRoutes)
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();

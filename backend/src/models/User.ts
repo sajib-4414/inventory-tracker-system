@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema<UserDoc>({
         type: String,
         required: [true, 'Please add a name']
     },
+    is_enabled:{
+        type: Boolean,
+        default: true
+    },
     email:{
         type: String, 
         match:[

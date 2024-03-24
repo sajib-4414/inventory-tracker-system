@@ -110,7 +110,8 @@ const updateStockAll = async (req: Request, res: Response, next: NextFunction) =
         stock.quantity = newQuantity;
         await stock.save();
     }));
-    res.status(200).json({ success: true, message: 'Stock quantity of paint successfully' });
+    const paint:PaintDoc|null = await Paint.findById(paintId).populate('quantity');
+    res.status(200).json({ success: true, message: 'Stock quantity of paint successfully',data:paint });
     } 
     catch (error) {
         next(error);
