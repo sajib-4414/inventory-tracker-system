@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastType, useNotification } from '../contexts/NotificationContext';
 import { useNavigate } from 'react-router-dom';
+import { server_url } from '../App';
 
 const CreatePaint = () => {
     const [color, setColor] = useState('');
     const [quantity, setQuantity] = useState('');
-    const API_ROOT = process.env.REACT_APP_API_HOST;
+    const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
     axios.defaults.withCredentials = true;
     const notificationHook = useNotification();
     const navigate = useNavigate();

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { server_url } from '../App';
 
 const PermissionList = () => {
     const [permissions, setPermissions] = useState([]);
@@ -8,7 +9,7 @@ const PermissionList = () => {
         description: '',
         code: ''
     });
-    const API_ROOT = process.env.REACT_APP_API_HOST;
+    const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
     axios.defaults.withCredentials = true;
 
     useEffect(() => {

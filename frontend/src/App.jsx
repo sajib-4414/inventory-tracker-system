@@ -41,5 +41,6 @@ const App = ()=>{
     
     )
 }
+export const server_url = "https://paint-inventory-backend.onrender.com"
 
 export default App

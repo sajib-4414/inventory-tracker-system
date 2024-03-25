@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastType, useNotification } from '../contexts/NotificationContext';
 import { useNavigate } from 'react-router-dom';
+import { server_url } from '../App';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const API_ROOT = process.env.REACT_APP_API_HOST;
+      const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       const response = await axios.post(`${API_ROOT}/api/v1/auth/login`, {
         email,

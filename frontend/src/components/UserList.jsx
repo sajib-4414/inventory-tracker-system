@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ToastType, useNotification } from '../contexts/NotificationContext';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
+import { server_url } from '../App';
 
 // Define a mapping object for user types
 const UserTypeLabels = {
@@ -18,7 +19,7 @@ const UserList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [newName, setNewName] = useState('');
-    const API_ROOT = process.env.REACT_APP_API_HOST;
+    const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
     const notificationHook = useNotification();
     axios.defaults.withCredentials = true; // Communicate cookie with the server
 

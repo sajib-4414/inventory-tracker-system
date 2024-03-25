@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastType, useNotification } from '../contexts/NotificationContext';
+import { server_url } from '../App';
 
 const AbilityList = () => {
     const [abilities, setAbilities] = useState([]);
@@ -9,7 +10,7 @@ const AbilityList = () => {
         description: ''
     });
     const notificationHook = useNotification();
-    const API_ROOT = process.env.REACT_APP_API_HOST;
+    const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
     axios.defaults.withCredentials = true;
 
     useEffect(() => {

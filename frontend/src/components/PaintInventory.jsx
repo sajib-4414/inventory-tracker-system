@@ -3,6 +3,7 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import { ToastType, useNotification } from '../contexts/NotificationContext';
 import { Link } from 'react-router-dom';
+import { server_url } from '../App';
 
 Modal.setAppElement('#root');
 
@@ -19,7 +20,7 @@ const PaintInventory = () => {
 
   const fetchPaints = async () => {
     try {
-      const API_ROOT = process.env.REACT_APP_API_HOST;
+      const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       const response = await axios.get(`${API_ROOT}/api/v1/paints`);
       setPaints(response.data.data);
@@ -39,7 +40,7 @@ const PaintInventory = () => {
 
   const handleDeleteClick = async (paint) => {
     try{
-      const API_ROOT = process.env.REACT_APP_API_HOST;
+      const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       const response = await axios.delete(`${API_ROOT}/api/v1/paints/${paint._id}`);
       notificationHook.showNotification('Paint deleted', {
@@ -63,7 +64,7 @@ const PaintInventory = () => {
     }
 
     try {
-      const API_ROOT = process.env.REACT_APP_API_HOST;
+      const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       let endpoint = ""
       if (isPainter)

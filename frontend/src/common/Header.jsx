@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastType, useNotification } from "../contexts/NotificationContext";
+import { server_url } from "../App";
 
 const Header = () => {
   const [userType, setUserType] = useState(""); // Initialize userType state
@@ -12,7 +13,7 @@ const Header = () => {
   // Function to handle logout
   const handleLogout = async () => {
     try {
-      const API_ROOT = process.env.REACT_APP_API_HOST;
+      const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       await axios.get(`${API_ROOT}/api/v1/auth/logout`);
       localStorage.removeItem("token");

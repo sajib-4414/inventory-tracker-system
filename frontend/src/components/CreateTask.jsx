@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastType, useNotification } from '../contexts/NotificationContext';
 import { useNavigate } from 'react-router-dom';
+import { server_url } from '../App';
 
 const CreateTask = () => {
   const [title, setTitle] = useState('');
@@ -12,7 +13,7 @@ const CreateTask = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [error, setError] = useState('');
   axios.defaults.withCredentials = true;
-  const API_ROOT = process.env.REACT_APP_API_HOST;
+  const API_ROOT = server_url//process.env.REACT_APP_API_HOST;
   const notificationHook = useNotification();
   const navigate = useNavigate();
 
