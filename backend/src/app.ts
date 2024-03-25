@@ -16,7 +16,7 @@ app.set('trust proxy', true);
 app.use(json());
 // Enable CORS for all routes
 app.use(cors({
-  origin: 'http://localhost:3000', // Replace with your frontend URL
+  origin: 'https://paint-inventory-system.onrender.com', // Replace with your frontend URL
   credentials: true, // Enable sending and receiving cookies
 }));
 
