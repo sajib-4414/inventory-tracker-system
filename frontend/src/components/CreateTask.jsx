@@ -12,7 +12,7 @@ const CreateTask = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [error, setError] = useState('');
   axios.defaults.withCredentials = true;
-  const API_ROOT = process.env.REACT_API_HOST;
+  const API_ROOT = process.env.REACT_APP_API_HOST;
   const notificationHook = useNotification();
   const navigate = useNavigate();
 

@@ -11,7 +11,7 @@ const TaskList = () => {
   const isPainter = user && user.type === 'painter';
   const fetchTasks = async () => {
     try {
-      const API_ROOT = process.env.REACT_API_HOST;
+      const API_ROOT = process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       let endpoint = '/api/v1/tasks';
       if (isPainter) {
@@ -30,7 +30,7 @@ const TaskList = () => {
   const handleMarkAsDone = async (taskId, currentStatus) => {
     try {
       const newStatus = currentStatus === 'due' ? 'done' : 'due';
-      const API_ROOT = process.env.REACT_API_HOST;
+      const API_ROOT = process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       let endpoint = '/api/v1/tasks/updateanytask';
       if (isPainter) {
@@ -53,7 +53,7 @@ const TaskList = () => {
 
   const handleDeleteTask = async (taskId) => {
     try {
-      const API_ROOT = process.env.REACT_API_HOST;
+      const API_ROOT = process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       const response = await axios.delete(`${API_ROOT}/api/v1/tasks/${taskId}`);
       console.log('Task deleted:', response.data);

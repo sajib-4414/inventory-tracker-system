@@ -24,7 +24,7 @@ const CreateUser = () => {
 
     try {
       setLoading(true);
-      const API_ROOT = process.env.REACT_API_HOST;
+      const API_ROOT = process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       await axios.post(`${API_ROOT}/api/v1/users`, {
         name,

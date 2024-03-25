@@ -12,7 +12,7 @@ const Header = () => {
   // Function to handle logout
   const handleLogout = async () => {
     try {
-      const API_ROOT = process.env.REACT_API_HOST;
+      const API_ROOT = process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       await axios.get(`${API_ROOT}/api/v1/auth/logout`);
       localStorage.removeItem("token");

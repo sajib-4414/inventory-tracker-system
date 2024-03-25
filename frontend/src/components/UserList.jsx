@@ -18,7 +18,7 @@ const UserList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [newName, setNewName] = useState('');
-    const API_ROOT = process.env.REACT_API_HOST;
+    const API_ROOT = process.env.REACT_APP_API_HOST;
     const notificationHook = useNotification();
     axios.defaults.withCredentials = true; // Communicate cookie with the server
 

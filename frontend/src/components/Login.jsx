@@ -12,7 +12,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const API_ROOT = process.env.REACT_API_HOST;
+      const API_ROOT = process.env.REACT_APP_API_HOST;
       axios.defaults.withCredentials = true;
       const response = await axios.post(`${API_ROOT}/api/v1/auth/login`, {
         email,

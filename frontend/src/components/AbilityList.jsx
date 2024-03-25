@@ -9,7 +9,7 @@ const AbilityList = () => {
         description: ''
     });
     const notificationHook = useNotification();
-    const API_ROOT = process.env.REACT_API_HOST;
+    const API_ROOT = process.env.REACT_APP_API_HOST;
     axios.defaults.withCredentials = true;
 
     useEffect(() => {

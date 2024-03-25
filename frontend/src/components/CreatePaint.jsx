@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const CreatePaint = () => {
     const [color, setColor] = useState('');
     const [quantity, setQuantity] = useState('');
-    const API_ROOT = process.env.REACT_API_HOST;
+    const API_ROOT = process.env.REACT_APP_API_HOST;
     axios.defaults.withCredentials = true;
     const notificationHook = useNotification();
     const navigate = useNavigate();
