@@ -23,14 +23,16 @@
         "660073d506fa6a2f47592796", 
         "660073d506fa6a2f47592799", 
         "660073d506fa6a2f4759279a", 
-        "660073d506fa6a2f47592795"  
+        "660073d506fa6a2f47592795",
+        "660073d506fa6a2f47592797"  
       ]
     },
     {
       "_id":"660078002f5e46f1ec33a11a",
-      "name": "PaintViewOnly",
+      "name": "PaintViewOnlyAndGetAllUsers",
       "permissions": [
-        "660073d506fa6a2f47592796"  
+        "660073d506fa6a2f47592796",
+        "660073d506fa6a2f475927a1"  
       ]
     },
     {
@@ -58,6 +60,6 @@
         "permissions": [
           "66007cefc37d87877df4051e" 
         ]
-      }
+    }
   ]
   

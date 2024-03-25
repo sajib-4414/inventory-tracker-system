@@ -16,8 +16,8 @@ export const ProtectedRoute = () => {
       // Check if user exists in local storage
       const storedUser = localStorage.getItem("user");
       if (!storedUser) {
-        // Show notification and navigate to login page
-        toast.error('Login to see this page!', {
+        // if there is no user, then Show notification and navigate to login page
+        toast.error('Login to see paint inventory!', {
           position: "top-right",
           autoClose: 800,
           });

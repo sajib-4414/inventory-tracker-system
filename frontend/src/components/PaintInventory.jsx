@@ -12,6 +12,11 @@ const PaintInventory = () => {
   const [quantity, setQuantity] = useState('');
   const notificationHook = useNotification();
   const [showModal, setShowModal] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'));
+  
+  const isAdminOrCoordinator = user && (user.type === 'admin' || user.type === 'supply_coordinator');
+  const isPainter = user && (user.type === 'painter');
+
   const fetchPaints = async () => {
     try {
       const API_ROOT = process.env.REACT_API_HOST;
@@ -22,6 +27,7 @@ const PaintInventory = () => {
       console.error('Error fetching paints:', error);
     }
   };
+  
   useEffect(() => {
     fetchPaints();
   }, []);
@@ -30,6 +36,7 @@ const PaintInventory = () => {
     setSelectedPaint(paint);
     setShowModal(true);
   };
+
   const handleDeleteClick = async (paint) => {
     try{
       const API_ROOT = process.env.REACT_API_HOST;
@@ -39,10 +46,9 @@ const PaintInventory = () => {
         type: ToastType.Info,
       });
       fetchPaints()
-    }catch(err){
+    } catch(err){
       console.log(err)
     }
-    
   };
 
   const handleCloseModal = () => {
@@ -59,17 +65,20 @@ const PaintInventory = () => {
     try {
       const API_ROOT = process.env.REACT_API_HOST;
       axios.defaults.withCredentials = true;
-      const response = await axios.post(`${API_ROOT}/api/v1/paints/update-stock-all`, {
+      let endpoint = ""
+      if (isPainter)
+        endpoint =`${API_ROOT}/api/v1/paints/update-stock-assigned`
+      else if (isAdminOrCoordinator)
+        endpoint =`${API_ROOT}/api/v1/paints/update-stock-all`
+      const response = await axios.post(endpoint, {
         newQuantity: Number(quantity),
         paintId:selectedPaint._id
       });
       notificationHook.showNotification('Paint Stock update successful', {
         type: ToastType.Success,
       });
-      console.log('Update successful:', response.data);
       setShowModal(false);
       setQuantity('');
-      // Refresh paints list
       fetchPaints()
     } catch (error) {
       console.error('Update error:', error);
@@ -78,10 +87,11 @@ const PaintInventory = () => {
 
   return (
     <div className="container">
-      <div className="container text-center">
-                        <Link to="/create-paint" className="btn btn-primary mb-1" style={{ width: '300px' }}>Create Paint</Link>
-                    </div>
-                    <br></br>
+      {isAdminOrCoordinator && (
+        <div className="container text-center">
+          <Link to="/create-paint" className="btn btn-primary mb-1" style={{ width: '300px' }}>Create Paint</Link>
+        </div>
+      )}
       <h2>Paint Inventory</h2>
       <table className="table">
         <thead>
@@ -97,8 +107,16 @@ const PaintInventory = () => {
               <td>{paint.color}</td>
               <td>{paint.quantity.length > 0 ? paint.quantity[0].quantity : 0}</td>
               <td>
-                <button className="btn btn-primary" onClick={() => handleUpdateClick(paint)}>Update</button>
-                <button className="btn btn-danger" onClick={() => handleDeleteClick(paint)}>Delete</button>
+                {(isAdminOrCoordinator|| isPainter) && (
+                  <>
+                    <button className="btn btn-primary" onClick={() => handleUpdateClick(paint)}>Update</button>
+                  </>
+                )}
+                {isAdminOrCoordinator && (
+                  <>
+                    <button className="btn btn-danger" onClick={() => handleDeleteClick(paint)}>Delete</button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

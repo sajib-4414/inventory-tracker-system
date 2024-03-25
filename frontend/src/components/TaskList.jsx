@@ -2,14 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastType, useNotification } from '../contexts/NotificationContext';
 import { Link } from 'react-router-dom';
+
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const notificationHook = useNotification();
+  const user = JSON.parse(localStorage.getItem('user'));
+  const isAdminOrSupervisor = user && (user.type === 'admin' || user.type === 'supervisor');
+  const isPainter = user && user.type === 'painter';
   const fetchTasks = async () => {
     try {
       const API_ROOT = process.env.REACT_API_HOST;
       axios.defaults.withCredentials = true;
-      const response = await axios.get(`${API_ROOT}/api/v1/tasks`);
+      let endpoint = '/api/v1/tasks';
+      if (isPainter) {
+        endpoint = '/api/v1/tasks/mytasks';
+      }
+      const response = await axios.get(`${API_ROOT}${endpoint}`);
       setTasks(response.data.data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -24,12 +32,16 @@ const TaskList = () => {
       const newStatus = currentStatus === 'due' ? 'done' : 'due';
       const API_ROOT = process.env.REACT_API_HOST;
       axios.defaults.withCredentials = true;
-      const response = await axios.put(`${API_ROOT}/api/v1/tasks/updateanytask`, { 
+      let endpoint = '/api/v1/tasks/updateanytask';
+      if (isPainter) {
+        endpoint = '/api/v1/tasks/updatemytask';
+      }
+      const response = await axios.put(`${API_ROOT}${endpoint}`, { 
         taskId,
         status: newStatus
-     });
-     fetchTasks();
-     notificationHook.showNotification('Task update successful', {
+      });
+      fetchTasks();
+      notificationHook.showNotification('Task update successful', {
         type: ToastType.Success,
       });
       console.log('Task status updated:', response.data);
@@ -55,14 +67,13 @@ const TaskList = () => {
     }
   };
 
-
   return (
     <div className="container">
-
-<div className="container text-center">
-                        <Link to="/create-task" className="btn btn-primary mb-1" style={{ width: '300px' }}>Create Task</Link>
-  </div>
-      
+      {isAdminOrSupervisor && (
+        <div className="container text-center">
+          <Link to="/create-task" className="btn btn-primary mb-1" style={{ width: '300px' }}>Create Task</Link>
+        </div>
+      )}
       <h2>Task List</h2>
       <table className="table">
         <thead>
@@ -87,7 +98,9 @@ const TaskList = () => {
                 <button className="btn btn-primary" onClick={() => handleMarkAsDone(task._id, task.status)}>
                   {task.status === 'due' ? 'Mark as Done' : 'Mark as Due'}
                 </button>
-                <button className="btn btn-danger mx-2" onClick={() => handleDeleteTask(task._id)}>Delete</button>
+                {isAdminOrSupervisor && (
+                  <button className="btn btn-danger mx-2" onClick={() => handleDeleteTask(task._id)}>Delete</button>
+                )}
               </td>
             </tr>
           ))}

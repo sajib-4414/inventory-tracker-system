@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express"
 import { User, UserDoc, UserType } from "../models/User";
-import { validationResult } from "express-validator";
 import { BadRequestError } from "../utils/RequestUtilities";
 import { Ability } from "../models/Ability";
 
@@ -50,7 +49,7 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
                 abilities = ["PaintViewAndUpateStockForPainter", "TaskViewUpdateForOwn", "RegularAuthAbilities"];
                 break;
             case UserType.Supervisor:
-                abilities = ["PaintViewOnly", "TaskManagementAndAssign","RegularAuthAbilities"];
+                abilities = ["PaintViewOnlyAndGetAllUsers", "TaskManagementAndAssign","RegularAuthAbilities"];
                 break;
             case UserType.SupplyCoordinator:
                 abilities = ["PaintManagement","RegularAuthAbilities"];

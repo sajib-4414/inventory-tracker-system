@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastType, useNotification } from '../contexts/NotificationContext';
 
 const AbilityList = () => {
     const [abilities, setAbilities] = useState([]);
@@ -7,6 +8,7 @@ const AbilityList = () => {
         name: '',
         description: ''
     });
+    const notificationHook = useNotification();
     const API_ROOT = process.env.REACT_API_HOST;
     axios.defaults.withCredentials = true;
 
@@ -36,6 +38,9 @@ const AbilityList = () => {
                 name: '',
                 description: ''
             });
+            notificationHook.showNotification('Ability create successful', {
+                type: ToastType.Success,
+              });
             // Refetch abilities
             fetchAbilities();
         } catch (error) {
