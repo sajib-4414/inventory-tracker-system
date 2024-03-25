@@ -35,13 +35,11 @@ const sendTokenResponse = (user:UserDoc, statusCode:number, res:Response)=>{
     })
 }
 
-// @desc Register user
-// @route POST /api/v1/auth/register
-// @access Public
-
-export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
+// Register a new user
+const registerUser = async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password, type } = req.body;
     try {
+        // getting abilities based on the user type
         let abilities: string[] = [];
 
         switch (type) {
@@ -70,16 +68,17 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
             return ability.id;
         }));
 
-        // Create user
+        // Create the user with assigned abilities
         const user: UserDoc = await User.create({
             name,
             email,
             password,
             type,
-            abilities: abilityIds // Assign ability IDs to the user
+            abilities: abilityIds
         });
         await user.populate('abilities')
 
+        // Send response with token
         sendTokenResponse(user, 200, res);
     } catch (err) {
         console.log(err);
@@ -87,19 +86,16 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-
-// @desc Register user
-// @route POST /api/v1/auth/login
-// @access Public
-
-const login = async (req:Request, res: Response, next: NextFunction)=>{
+// Log in a user
+const login = async (req: Request, res: Response, next: NextFunction) => {
+    // Extract email and password from the request body
     const {email, password} = req.body;
-    //Validate email and password
+    // Validate email and password
     if(!email || !password){
         throw new BadRequestError('Please provide and email and password');
     }
     try{
-         //check for user and explicitly retrieving password to match below
+        // Check if the user exists and retrieve their abilities
         const user:UserDoc = await User.findOne({email}).select('+password')
         await user.populate('abilities')
 
@@ -107,93 +103,82 @@ const login = async (req:Request, res: Response, next: NextFunction)=>{
             throw new BadRequestError('Invalid Credentials');
         }
 
-        //check if password matches
+        // Check if the password matches
         const isMatch = await user.matchPassword(password)
 
-    if(!isMatch){
-        throw new BadRequestError('Invalid Credentials');
-    }
+        if(!isMatch){
+            throw new BadRequestError('Invalid Credentials');
+        }
+        // Send response with token
         sendTokenResponse(user, 200, res)
     }catch(err){
         console.log(err)
         return next(new BadRequestError('Check credentials again'));
     }
-    
-   
-}
+};
 
-
-// @desc Get current logged in user
-// @route POST /api/v1/auth/me
-// @access Private
-
-const getMe = async (req:any, res:Response, next:NextFunction)=>{
+// Get the current logged in user
+const getMe = async (req: any, res: Response, next: NextFunction) => {
+    // Find the current user by ID and populate their abilities
     const user:UserDoc|null = await User.findById(req.user.id).populate({
         path: 'abilities',
         populate: { path: 'permissions' }
     })
+    // Send response with user data
     res.status(200).json({
         success: true,
-        data:user
+        data: user
     })
+};
 
-}
-
-
-// @desc Log out user/clear cookie
-// @route GET /api/v1/auth/logout
-// @access Private
-
-const logout = async (req:any, res:Response, next:NextFunction)=>{
-
-    res.cookie('token','none',{
-        expires: new Date(Date.now()+10*1000),
+// Log out a user and clear the cookie
+const logout = async (req: any, res: Response, next: NextFunction) => {
+    // Clear the token cookie
+    res.cookie('token', 'none', {
+        expires: new Date(Date.now() + 10 * 1000),
         httpOnly: true
     })
-    
+    // Send success response
     res.status(200).json({
         success: true,
-        data:{}
+        data: {}
     })
-}
+};
 
-// @desc Update user details
-// @route PUT /api/v1/auth/updatedetails
-// @access Private
-
-const updateDetails = async (req:any, res:Response, next:NextFunction)=>{
-    //only allowing name to be updated.
+// Update user details
+const updateDetails = async (req: any, res: Response, next: NextFunction) => {
+    // Extract the updated name from the request body
     const fields = {
         name: req.body.name
     }
-    const user:UserDoc|null = await User.findByIdAndUpdate(req.user.id, fields, {
+    // Find the user by ID and update their details
+    const user: UserDoc | null = await User.findByIdAndUpdate(req.user.id, fields, {
         new: true,
-        runValidators:true
+        runValidators: true
     })
+    // Send response with updated user data
     res.status(200).json({
         success: true,
-        data:user
+        data: user
     })
-}
+};
 
-// @desc Update password
-// @route PUT /api/v1/auth/updatepassword
-// @access Private
+// Update user password
+const updatePassword = async (req: any, res: Response, next: NextFunction) => {
+    // Find the user by ID and select their password
+    const user: UserDoc = await User.findById(req.user.id).select('+password')
 
-const updatePassword = async (req:any, res:Response, next:NextFunction)=>{
-    const user:UserDoc = await User.findById(req.user.id).select('+password')
-
-    //check current password
-    if(!await user.matchPassword(req.body.currentPassword)){
+    // Check if the current password matches
+    if (!await user.matchPassword(req.body.currentPassword)) {
         throw new BadRequestError("Username or password is incorrect")
     }
 
+    // Update the password and save the user
     user.password = req.body.newPassword
-
     await user.save()
 
-    sendTokenResponse(user,200,res)
-   
-}
+    // Send response with updated token
+    sendTokenResponse(user, 200, res)
+};
 
-export{updateDetails, updatePassword, registerUser as register, login, logout, getMe}
+export { updateDetails, updatePassword, registerUser as register, login, logout, getMe }
