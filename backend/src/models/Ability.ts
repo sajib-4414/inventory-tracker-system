@@ -28,6 +28,7 @@ const Permission = mongoose.model<PermissionDoc>('Permission', PermissionSchema)
 
 interface AbilityDoc extends mongoose.Document{
     name: string;
+    description: string;
     permissions: PermissionDoc[];
 }
 

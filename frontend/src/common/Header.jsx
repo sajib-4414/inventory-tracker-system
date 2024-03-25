@@ -49,7 +49,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/paint-inventory" className="nav-link text-white">
+              <Link to="/" className="nav-link text-white">
                 Paint Inventory
               </Link>
             </li>
@@ -58,22 +58,23 @@ const Header = () => {
       case "supervisor":
         return (
           <>
+          <li className="nav-item">
+              <Link to="/" className="nav-link text-white">
+                Paint Inventory
+              </Link>
+            </li>
             <li className="nav-item">
               <Link to="/tasks-list" className="nav-link text-white">
                 All Tasks
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/paint-inventory" className="nav-link text-white">
-                Paint Inventory
-              </Link>
-            </li>
+            
           </>
         );
       case "supply_coordinator":
         return (
           <li className="nav-item">
-            <Link to="/paint-inventory" className="nav-link text-white">
+            <Link to="/" className="nav-link text-white">
               Paint Inventory
             </Link>
           </li>
@@ -81,6 +82,11 @@ const Header = () => {
       case "admin":
         return (
           <>
+          <li className="nav-item">
+              <Link to="/" className="nav-link text-white">
+                Paint Inventory
+              </Link>
+            </li>
             <li className="nav-item">
               <Link to="/user-list" className="nav-link text-white">
                 All Users
@@ -92,8 +98,8 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/all-roles" className="nav-link text-white">
-                All Roles
+              <Link to="/abilities-list" className="nav-link text-white">
+                All Abilities
               </Link>
             </li>
             <li className="nav-item">
@@ -101,11 +107,7 @@ const Header = () => {
                 All Permissions
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/paint-inventory" className="nav-link text-white">
-                Paint Inventory
-              </Link>
-            </li>
+            
           </>
         );
       default:
@@ -124,14 +126,7 @@ const Header = () => {
             <h2 className="text-white">Paint Stock System</h2>
           </Link>
 
-          <ul className="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
-            <li className="nav-item">
-              <Link to="movies" className="nav-link text-white">
-                About us
-              </Link>
-            </li>
-            
-          </ul>
+          
 
           
           <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">

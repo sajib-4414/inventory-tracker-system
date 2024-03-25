@@ -23,7 +23,10 @@ const getUsers = async (req: Request, res: Response) => {
             }
         }
 
-        const users = await User.find(query);
+        const users = await User.find(query).populate({
+            path: 'abilities',
+            populate: { path: 'permissions' }
+        });
         res.status(200).json({ success: true, data: users });
     } catch (error) {
         console.log(error);

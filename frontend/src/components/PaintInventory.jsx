@@ -30,6 +30,20 @@ const PaintInventory = () => {
     setSelectedPaint(paint);
     setShowModal(true);
   };
+  const handleDeleteClick = async (paint) => {
+    try{
+      const API_ROOT = process.env.REACT_API_HOST;
+      axios.defaults.withCredentials = true;
+      const response = await axios.delete(`${API_ROOT}/api/v1/paints/${paint._id}`);
+      notificationHook.showNotification('Paint deleted', {
+        type: ToastType.Info,
+      });
+      fetchPaints()
+    }catch(err){
+      console.log(err)
+    }
+    
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -84,7 +98,7 @@ const PaintInventory = () => {
               <td>{paint.quantity.length > 0 ? paint.quantity[0].quantity : 0}</td>
               <td>
                 <button className="btn btn-primary" onClick={() => handleUpdateClick(paint)}>Update</button>
-                <button className="btn btn-danger">Delete</button>
+                <button className="btn btn-danger" onClick={() => handleDeleteClick(paint)}>Delete</button>
               </td>
             </tr>
           ))}

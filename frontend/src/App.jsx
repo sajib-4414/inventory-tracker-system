@@ -13,21 +13,25 @@ import UserList from "./components/UserList.jsx"
 import CreateUser from "./components/CreateUser.jsx"
 import CreateTask from "./components/CreateTask.jsx"
 import CreatePaint from "./components/CreatePaint.jsx"
+import PermissionList from "./components/PermissionList.jsx"
+import AbilityList from "./components/AbilityList.jsx"
 const App = ()=>{
     return(
       <NotificationProvider>
         <Container>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="paint-inventory" element={<PaintInventory />} />
+            <Route path="/" element={<PaintInventory />} />
             <Route path="tasks-list" element={<TaskList />} />
             <Route path="user-list" element={<UserList />} />
             <Route path="create-user" element={<CreateUser />} />
             <Route path="create-task" element={<CreateTask />} />
             <Route path="create-paint" element={<CreatePaint />} />
+            <Route path="all-permissions" element={<PermissionList />} />
+            <Route path="abilities-list" element={<AbilityList />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
