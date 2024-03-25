@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { ValidationChain, body, validationResult } from 'express-validator';
-import { authenticatedRoute } from '../middlewares/AuthMiddleware';
+import { authenticatedRoute, checkPermission } from '../middlewares/AuthMiddleware';
 import { createPaint, deletePaint, getAllPaints, updatePaintColor, updateStockAll, updateStockAssigned } from '../controllers/PaintController';
 import { validateRequest } from '../utils/RequestUtilities';
 import mongoose from 'mongoose';
@@ -46,11 +46,11 @@ const paintStockUpdateValidation: ValidationChain[] = [
 ]
 
 
-router.post('', paintCreation, validateRequest, authenticatedRoute, createPaint) //creates paint
-router.get('', authenticatedRoute, getAllPaints) //get all paints
-router.post('/update-stock-all', authenticatedRoute,paintStockUpdateValidation, validateRequest, updateStockAll) //update the stock of any paint
-router.post('/update-stock-assigned', authenticatedRoute,paintStockUpdateValidation, validateRequest, updateStockAssigned) //update the stock of paint of assigned color
-router.put('/:paintId', authenticatedRoute,updatePaintColor) //update a paint color
-router.delete('/:paintId', authenticatedRoute,deletePaint) //delete a paint, also deletes the stock associated with the paint
+router.post('', paintCreation, validateRequest, authenticatedRoute, checkPermission('allow_create_paint'), createPaint) //creates paint
+router.get('', authenticatedRoute, checkPermission('allow_get_all_paints'), getAllPaints) //get all paints
+router.post('/update-stock-all', authenticatedRoute,paintStockUpdateValidation, validateRequest, checkPermission('allow_update_stock_all'), updateStockAll) //update the stock of any paint
+router.post('/update-stock-assigned', authenticatedRoute,paintStockUpdateValidation, validateRequest, checkPermission('allow_update_stock_assigned'), updateStockAssigned) //update the stock of paint of assigned color
+router.put('/:paintId', authenticatedRoute, checkPermission('allow_update_paint_color'), updatePaintColor) //update a paint color
+router.delete('/:paintId', authenticatedRoute,checkPermission('allow_delete_paint'), deletePaint) //delete a paint, also deletes the stock associated with the paint
 
 export {router as paintRoutes}

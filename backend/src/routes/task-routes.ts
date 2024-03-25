@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { ValidationChain, body, validationResult } from 'express-validator';
-import { authenticatedRoute } from '../middlewares/AuthMiddleware';
+import { authenticatedRoute, checkPermission } from '../middlewares/AuthMiddleware';
 import { validateRequest } from '../utils/RequestUtilities';
 import mongoose from 'mongoose';
 import { createTask, deleteTask, getAllTasks, getMyTasks, updateAssignedTaskStatus, updateTaskAny } from '../controllers/TaskController';
@@ -44,11 +44,11 @@ const taskStatusUpdateValidation: ValidationChain[] = [
 ];
 
 
-router.post('', taskCreationValidation, validateRequest, authenticatedRoute,createTask) //creates task
-router.get('', authenticatedRoute, getAllTasks) //get all tasks
-router.get('/mytasks', authenticatedRoute, getMyTasks) //get my tasks
-router.put('/updateanytask', authenticatedRoute,taskUpdateValidation, validateRequest, updateTaskAny) //update the task
-router.put('/updatemytask', authenticatedRoute, taskStatusUpdateValidation, validateRequest, updateAssignedTaskStatus) //update the assigned task,only status
-router.delete('/:taskId', authenticatedRoute,deleteTask) //delete a task
+router.post('', taskCreationValidation, validateRequest, authenticatedRoute,checkPermission('allow_create_task'),createTask) //creates task
+router.get('', authenticatedRoute, checkPermission('allow_get_all_tasks'), getAllTasks) //get all tasks
+router.get('/mytasks', authenticatedRoute, checkPermission('allow_get_my_tasks'), getMyTasks) //get my tasks
+router.put('/updateanytask', authenticatedRoute,taskUpdateValidation, validateRequest, checkPermission('allow_update_any_task'), updateTaskAny) //update the task
+router.put('/updatemytask', authenticatedRoute, taskStatusUpdateValidation, validateRequest, checkPermission('allow_update_my_task_status'), updateAssignedTaskStatus) //update the assigned task,only status
+router.delete('/:taskId', authenticatedRoute,checkPermission('allow_delete_task'),deleteTask) //delete a task
 
 export {router as taskRoutes}

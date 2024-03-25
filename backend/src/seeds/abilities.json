@@ -1,4 +1,13 @@
 [
+  {
+    "_id":"66010cdd7c20db5c514b6ad6",
+    "name": "RegularAuthAbilities",
+    "permissions": [
+      "660073d506fa6a2f47592793", 
+      "660073d506fa6a2f47592794",
+      "660073d506fa6a2f47592792"  
+    ]
+  },
     {
       "_id":"660078002f5e46f1ec33a118",
       "name": "PaintViewAndUpateStockForPainter",

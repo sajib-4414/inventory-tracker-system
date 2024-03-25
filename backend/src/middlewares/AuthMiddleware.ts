@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { User } from '../models/User'
-import { NotAuthorizedError } from '../utils/RequestUtilities';
+import { NotAuthorizedError, NotPermittedError } from '../utils/RequestUtilities';
 
 
 //protect routes
@@ -35,4 +35,22 @@ export const authenticatedRoute = async (req:any, res: Response, next: NextFunct
     }
 }
 
+// Middleware to check if the user has a specific permission
+export const checkPermission = (permissionCode:string) => async (req:any, res: Response, next: NextFunction)  => {
+    
+        // Get the user's permissions
+        const user = await User.findById(req.user._id);
+        const permissions = await user!.getPermissions();
+        console.log('permissions are',permissions)
 
+        // Check if the user has the specified permission code
+        const hasPermission = permissions.some(permission => permission.code === permissionCode);
+
+        if (!hasPermission) {
+            throw new NotPermittedError();
+        }
+
+        // If the user has the permission, continue to the next middleware
+        next();
+    
+};

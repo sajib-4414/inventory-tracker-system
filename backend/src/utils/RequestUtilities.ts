@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
 
 
+//global error handler
 export const errorHandler = (
     err: Error,
     req: Request,
@@ -17,6 +18,7 @@ export const errorHandler = (
     });
 };
 
+//to format the error in a standard format of error and message
 export abstract class CustomError extends Error {
     abstract statusCode: number;
   
@@ -29,6 +31,7 @@ export abstract class CustomError extends Error {
     abstract serializeErrors(): { message: string; field?: string }[];
 }
 
+// a generic bad request 400 error for easy error handling
 export class BadRequestError extends CustomError {
     statusCode = 400;
   
@@ -43,6 +46,7 @@ export class BadRequestError extends CustomError {
     }
 }
 
+// a generic bad request 404 error for easy error handling
 export class NotFoundError extends CustomError {
   statusCode = 404;
 
@@ -56,6 +60,8 @@ export class NotFoundError extends CustomError {
     return [{ message: this.message }];
   }
 }
+
+// to show express validator errors in a neat format
 export class RequestValidationError extends CustomError {
   statusCode = 400;
 
@@ -75,6 +81,8 @@ export class RequestValidationError extends CustomError {
     });
   }
 }
+
+// to execture the express validators
 export const validateRequest = (
   req: Request,
   res: Response,
@@ -89,6 +97,8 @@ export const validateRequest = (
   next();
 };
 
+
+// a generic bad request 401 error for easy error handling
 export class NotAuthorizedError extends CustomError {
   statusCode = 401;
 
@@ -103,7 +113,22 @@ export class NotAuthorizedError extends CustomError {
   }
 }
 
+// a generic bad request 401 error for easy error handling
+export class NotPermittedError extends CustomError {
+  statusCode = 403;
 
+  constructor() {
+    super('You do not have permission to this route');
+
+    Object.setPrototypeOf(this, NotPermittedError.prototype);
+  }
+
+  serializeErrors() {
+    return [{ message: 'Do not have permission to this route' }];
+  }
+}
+
+// a generic bad request 500 error for undefined errors
 export class UnhandledError extends CustomError {
   statusCode = 500;
 

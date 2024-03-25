@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { User, UserType, UserDoc } from '../models/User';
 import { BadRequestError, NotFoundError, UnhandledError } from '../utils/RequestUtilities';
 import { Task } from '../models/Task';
+import { Ability } from '../models/Ability';
 
 
 // GET all users of a specified type
@@ -77,12 +78,41 @@ const deleteUser = async (req: Request, res: Response) => {
 const createUser = async (req:Request, res: Response, next: NextFunction)=>{
     const {name, email, password, type} = req.body;
     try{
+        let abilities: string[] = [];
+
+        switch (type) {
+            case UserType.Painter:
+                abilities = ["PaintViewAndUpateStockForPainter", "TaskViewUpdateForOwn", "RegularAuthAbilities"];
+                break;
+            case UserType.Supervisor:
+                abilities = ["PaintViewOnly", "TaskManagementAndAssign","RegularAuthAbilities"];
+                break;
+            case UserType.SupplyCoordinator:
+                abilities = ["PaintManagement","RegularAuthAbilities"];
+                break;
+            case UserType.Admin:
+                abilities = ["PaintManagement", "TaskManagementAndAssign", "UserAndRoleManagement","RegularAuthAbilities"];
+                break;
+            default:
+                throw new BadRequestError('Invalid user type');
+        }
+
+        // Fetch ability IDs based on ability names
+        const abilityIds: string[] = await Promise.all(abilities.map(async (abilityName: string) => {
+            const ability = await Ability.findOne({ name: abilityName });
+            if (!ability) {
+                throw new BadRequestError(`Ability ${abilityName} not found`);
+            }
+            return ability.id;
+        }));
+
         //create user
         const user:UserDoc = await User.create({
             name, 
             email,
             password,
-            type
+            type,
+            abilities: abilityIds // Assign ability IDs to the user
         })
         res.status(200).json({ success: true, data:user });
     }catch(err){

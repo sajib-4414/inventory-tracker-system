@@ -47,16 +47,16 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
 
         switch (type) {
             case UserType.Painter:
-                abilities = ["PaintViewAndUpateStockForPainter", "TaskViewUpdateForOwn"];
+                abilities = ["PaintViewAndUpateStockForPainter", "TaskViewUpdateForOwn", "RegularAuthAbilities"];
                 break;
             case UserType.Supervisor:
-                abilities = ["PaintViewOnly", "TaskManagementAndAssign"];
+                abilities = ["PaintViewOnly", "TaskManagementAndAssign","RegularAuthAbilities"];
                 break;
             case UserType.SupplyCoordinator:
-                abilities = ["PaintManagement"];
+                abilities = ["PaintManagement","RegularAuthAbilities"];
                 break;
             case UserType.Admin:
-                abilities = ["PaintManagement", "TaskManagementAndAssign", "UserAndRoleManagement"];
+                abilities = ["PaintManagement", "TaskManagementAndAssign", "UserAndRoleManagement","RegularAuthAbilities"];
                 break;
             default:
                 throw new BadRequestError('Invalid user type');

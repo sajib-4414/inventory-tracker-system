@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import  brcypt  from "bcryptjs";
 import jwt from 'jsonwebtoken'
-import { Ability, AbilityDoc } from "./Ability";
+import { Ability, AbilityDoc, PermissionDoc } from "./Ability";
+import { BadRequestError } from "../utils/RequestUtilities";
 
 enum UserType {
     Admin = "admin",
@@ -20,6 +21,7 @@ interface UserDoc extends mongoose.Document {
     // Add the method to the interface
     getSignedJWTToken: () => string;
     matchPassword: (password:string) => boolean;
+    getPermissions: () => PermissionDoc[];
 }
 
 const userSchema = new mongoose.Schema<UserDoc>({
@@ -102,6 +104,23 @@ userSchema.methods.toJSON = function() {
 userSchema.methods.matchPassword = async function(enteredPassword:string){
     return await brcypt.compare(enteredPassword, this.password)
     
+}
+
+userSchema.methods.getPermissions = async function(){
+    let permissions:PermissionDoc[] = [];
+    try {
+        
+        for (const abilityId of this.abilities) {
+            const ability = await this.model('Ability').findById(abilityId).populate('permissions');
+            // Add the permissions to the array
+            permissions = permissions.concat(ability.permissions);
+        }
+    } catch (error) {
+        console.error('Error fetching permissions:', error);
+        throw new BadRequestError('Error fetching permissions')
+    }
+    // Return the list of permissions
+    return permissions;
 }
 
 interface UserModelInterface extends mongoose.Model<UserDoc>{

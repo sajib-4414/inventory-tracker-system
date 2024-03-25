@@ -23,7 +23,7 @@ const CreatePaint = () => {
             notificationHook.showNotification('Task update successful', {
                 type: ToastType.Success,
               });
-              navigate('/paint-inventory')
+              navigate('/')
             
         } catch (error) {
             console.error('Error creating paint:', error);
