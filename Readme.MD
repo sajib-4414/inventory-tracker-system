@@ -20,7 +20,7 @@ This project is a full-stack application designed to manage paint inventory and 
 
 - **Role Based Acces Control System**: The application is designed with robust Role Based Access Control system in the Backend. 
   - *User types:* Ther are 4 kinds of users,they are identified by their type. Each User has `type` property, type can be Supervisor, Painter, Supply Coordinator, and Admin. 
-  - *User Abilities:* Each user is associated with a list of abilities. Example, RegularAuth Ability means usr can update password, update profile, get current user details.
+  - *User Abilities:* Each user is associated with a list of abilities. Example, RegularAuth Ability means user can update password, update profile, get current user details.
   - *Permissions*: Each ability has a list of permissions. For example, allow_get_all_paints, allow_get_all_users.
   
   Therefore, each user has a list of permissions inheriting from the abilities. Each API route has designated permission. A checkPermission Middleware checks if user has the right permission to call this backend API.
@@ -41,13 +41,13 @@ This project is a full-stack application designed to manage paint inventory and 
     - `api/v1/users/setenabled/userId` POST
   - Paint Endpoints:
     - `api/v1/paints` GET CREATE UPDATE DELETE
-    - `api/v1/paints/update-stock-all` update stock of a paint being admin/coordinator
-    - `api/v1/paints/update-stock-assigned` update stock of a paint being painter
+    - `api/v1/paints/update-stock-all` update stock of a paint being an admin/coordinator
+    - `api/v1/paints/update-stock-assigned` update stock of a paint being a painter
   - Tasks Endpoints:
     - `api/v1/tasks` GET CREATE DELETE
     - `api/v1/tasks/mytasks` GET
-    - `api/v1/tasks/updateanytask` update task details of a task being supervisor/admin
-    - `api/v1/tasks/updateanytask` update status of a task being painter
+    - `api/v1/tasks/updateanytask` update task details of a task being a supervisor/admin
+    - `api/v1/tasks/updateanytask` update status of a task being a painter
 
 ## Deployment
 
