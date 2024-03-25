@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
-    publicPath: 'http://localhost:3000/',
+    publicPath: 'https://paint-inventory-system.onrender.com/',
   },
   devServer: {
     static: './dist',
