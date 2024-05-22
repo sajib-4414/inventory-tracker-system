@@ -1,4 +1,4 @@
-# Paint Inventory and Task Assignment System
+# Inventory and Task Assignment System
 
 This project is a full-stack application designed to manage paint inventory and task assignment for various user roles. The system supports four types of users: admin, supervisor, painter, and supply coordinator.
 
