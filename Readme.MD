@@ -10,6 +10,12 @@ This project is a full-stack application designed to manage paint inventory and 
 - **Authentication**: JWT with authenticated by cookie in client.
 - **Authorization** : Role based Access Control system.
 
+### Installation
+Project is setup as git submodules. Git set as submodule means, there will be three repos for this project. one is parent repo, and another two are backend and frotnend repo. We will commit code into backend and frotnend repos. Then we will update the references in the parent repo. 
+there are two ways to clone this kind of repos.
+- first clone this repository normally. then go to the repository folder and issue command `git submodule update --init --recursive`
+- clone everything directly: `git clone --recurse-submodules main-repo-url`
+
 ## Features
 
 - **User Roles**: Admin users have full control over the system, including managing tasks, users, abilities, and permissions. Supervisor users can view the paint list and manage tasks such as assigning tasks to a painter user. Painter users can view the paint list, update paint stock, see their assigned tasks, and mark them as done. Supply coordinator users can manage paints.
