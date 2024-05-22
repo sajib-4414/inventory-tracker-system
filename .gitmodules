@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/sajib-4414/inventory-tracker-backend.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/sajib-4414/inventory-tracker-frontend.git
