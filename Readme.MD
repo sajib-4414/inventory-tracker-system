@@ -15,6 +15,13 @@ Project is setup as git submodules. Git set as submodule means, there will be th
 there are two ways to clone this kind of repos.
 - first clone this repository normally. then go to the repository folder and issue command `git submodule update --init --recursive`
 - clone everything directly: `git clone --recurse-submodules main-repo-url`
+When using the project, and committing in subrepos(backend or frotnend) we also need to update the main repo.
+to update the main repo after commit has been pushed in subrepos.
+```
+git add backend
+git commit -m "Update backend submodule to latest commit"
+git push origin main
+```
 
 ## Features
 
